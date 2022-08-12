@@ -10,6 +10,8 @@
 - src/fights/core.clj
 - (insert-person-id id_competition)
 - (insert-pserons year)
+- transaction でスピードアップできないか？
+
 
 ## 0.1.0 - 2022-08-12
 - project (re)started.

@@ -1,7 +1,7 @@
 (ns fights.persons
-  (:require
-   [fights.db :as db]
-   [hato.client :as hc]))
+ (:require
+  [fights.db :as db]
+  [hato.client :as hc]))
 
 (def ^:private base "https://data.ijf.org/api/get_json")
 
