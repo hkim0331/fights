@@ -22,7 +22,7 @@
 
 (defn end-transaction
   []
-  (sql/query ds ["end transaction"]))
+  (sql/query ds ["commit transaction"]))
 
 ;;;;;;;;;;;;
 ;; persons
