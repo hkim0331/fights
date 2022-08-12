@@ -7,6 +7,7 @@
 - test/fights/db_test.clj
 - src/fights/competitor.clj
 - src/fights/core.clj
+- can insert-person
 
 
 ## 0.1.0 - 2022-08-12

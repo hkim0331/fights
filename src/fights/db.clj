@@ -13,9 +13,11 @@
 
 (def ds (jdbc/with-options
           (jdbc/get-datasource db)
-          {:builder-fn rs/as-unqualified-lower-maps}))
-
+          {:builder-fn rs/as-unqualified-lower-maps
+           :return-keys [:id]}))
+;;;;;;;;;;;;
 ;; persons
+;;;;;;;;;;;;
 
 (defn drop-persons []
   (jdbc/execute! ds ["drop table if exists persons"]))
@@ -23,14 +25,27 @@
 (defn create-persons []
   (let [sql "create table persons (
              id integer  primary key autoincrement,
-             id_person   int not null,
+             id_person   int not null unique,
              family_name text not null,
              given_name  text not null)"]
     (drop-persons)
     (sql/query ds [sql])))
 
-(create-persons)
+(defn insert-person
+ [{:keys [id_person family_name given_name]}]
+ (try
+  (sql/insert! ds :persons {:id_person id_person
+                            :family_name family_name
+                            :given_name given_name})
+  (catch Exception e (println (.getMessage e)
+                              "\n"
+                              "id_person"   id_person
+                              "family_name" family_name
+                              "given_name"  given_name))))
+
+;;;;;;;;;;;;;
 ;; contests
+;;;;;;;;;;;;;
 
 (defn drop-contests []
   (sql/query ds ["drop table if exists contests"]))
@@ -71,6 +86,5 @@
                 :has_results has_results
                 :comp_year comp_year
                 :id_competition id_competition})]
-      (println "ret=" ret)
       ret)
     (catch Exception e (println (.getMessage e)))))
