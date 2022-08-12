@@ -16,6 +16,14 @@
           {:builder-fn rs/as-unqualified-lower-maps
            :return-keys [:id]}))
 
+(defn begin-transaction
+  []
+  (sql/query ds ["begin transaction"]))
+
+(defn end-transaction
+  []
+  (sql/query ds ["end transaction"]))
+
 ;;;;;;;;;;;;
 ;; persons
 ;;;;;;;;;;;;
@@ -33,13 +41,7 @@
     (drop-persons)
     (sql/query ds [sql])))
 
-(defn begin-transaction
-  []
-  (sql/query ds ["begin transaction"]))
 
-(defn end-transaction
-  []
-  (sql/query ds ["end transaction"]))
 
 (defn insert-person
   [{:keys [id_person family_name given_name country]}]
