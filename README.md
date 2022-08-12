@@ -1,6 +1,7 @@
-# fights REDME.md
+# fights
 
-https://data.ijf.org/api/get_json からデータを拾ってくる。
+Fetch from https://data.ijf.org/api/get_json .
+
 
 ## Require
 
@@ -8,6 +9,7 @@ You will need Clojure CLI and SQlite3 installed.
 
 ## Usage
 
+
 ## License
 
-Copyright &cp; 2022 Hiroshi Kimura
+Copyright &copy; 2022 Hiroshi Kimura

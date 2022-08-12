@@ -1,4 +1,4 @@
-(ns fights
+(ns fights.competitor
   (:require
    [cheshire.core :refer :all]
    [hato.client :as hc]))
@@ -7,10 +7,8 @@
 
 (defn get-ijf
   [kind id]
-  (let [url (str base
-                 "?"
-                 "params[action]=" kind
-                 "&"
+  (let [url (str base "?"
+                 "params[action]=" kind "&"
                  "params[id_person]=" id)]
     (-> (hc/get url {:as :json})
         :body)))
@@ -19,27 +17,24 @@
   [id]
   (get-ijf "competitor.info" id))
 
-(comment
-  (def hiraoka (info 30))
-  hiraoka)
-
 (defn wrl-current
   [id]
   (get-ijf "competitor.wrl_current" id))
-
-(comment
-  (wrl-current 30))
 
 (defn fights-statistics
   [id]
   (get-ijf "competitor.fights_statistics" id))
 
-(comment
-  (fights-statistics 30))
-
 (defn contests
   [id]
-  (get-ijf "competitor.contests" id))
+  (-> (get-ijf "competitor.contests" id)
+      :contests))
 
-(comment
-  (contests 30))
+(defn id-fight
+  [id]
+  (->> (contests id)
+       (map :id_fight)))
+
+(defn contests-statistics
+ [id]
+ (get-ijf "competitor.contests_statistics" id))
