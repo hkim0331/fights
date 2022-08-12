@@ -1,4 +1,4 @@
-(ns db
+(ns fights.db
   (:require
    [clojure.java.io :as io]
    [next.jdbc :as jdbc]
@@ -26,10 +26,9 @@
     (drop-table)
     (jdbc/execute! ds [sql])))
 
-(create-table)
+;;(create-table)
 
 ;; csv からじゃなく、json からの方が効率はいいだろう。
-
 (defn seed
   [csv]
   (with-open [r (io/reader csv)]
@@ -38,4 +37,4 @@
         (println line)
         (recur (read-line))))))
 
-(seed "data/year-2022.csv")
+;;(seed "data/year-2022.csv")
