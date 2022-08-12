@@ -1,0 +1,5 @@
+{:deps
+ {cheshire/cheshire {:mvn/version "5.11.0"}
+  com.github.seancorfield/next.jdbc {:mvn/version "1.2.796"}
+  hato/hato {:mvn/version "0.8.2"}
+  org.xerial/sqlite-jdbc {:mvn/version "3.39.2.0"}}}
