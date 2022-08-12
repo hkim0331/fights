@@ -6,17 +6,14 @@
    #_[fights.competitor :as competitor]))
 
 
-(db/create-contests)
-
+(db/create-contests nil)
 
 ;; id_competition and name
 ;; name reset-competitions?
-(db/create-competitions)
+(db/create-competitions nil)
 (competitions/insert-competitions)
 ;;"Elapsed time: 2114.854625 msecs"
 
 ;; persons
 ;;(persons/insert-persons-id 2281)
-(db/create-persons)
-;; (time (persons/insert-persons 2021))
-;; "Elapsed time: 61317.613375 msecs"
+(db/create-persons nil)
