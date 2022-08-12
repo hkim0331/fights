@@ -5,36 +5,72 @@
    [next.jdbc.sql :as sql]
    [next.jdbc.result-set :as rs]))
 
+;;;;;;;;;;;;
+;; SQLite3
+;;;;;;;;;;;;
 (def db {:dbtype "sqlite"
          :dbname "db/fights.sqlite"})
 
 (def ds (jdbc/with-options
           (jdbc/get-datasource db)
-          {:builder-fn rs/as-unqualified-lower-maps
-           :return-keys true}))
+          {:builder-fn rs/as-unqualified-lower-maps}))
 
-(defn drop-table []
-  (jdbc/execute! ds ["drop table if exists fights"]))
+;; persons
 
-;;(drop-table)
+(defn drop-persons []
+  (jdbc/execute! ds ["drop table if exists persons"]))
 
-(defn create-table []
-  (let [sql "create table fights (
-            id integer primary key autoincrement,
-            id_person  int not null,
-            name text not null)"]
-    (drop-table)
-    (jdbc/execute! ds [sql])))
+(defn create-persons []
+  (let [sql "create table persons (
+             id integer  primary key autoincrement,
+             id_person   int not null,
+             family_name text not null,
+             given_name  text not null)"]
+    (drop-persons)
+    (sql/query ds [sql])))
 
-;;(create-table)
+(create-persons)
+;; contests
 
-;; csv からじゃなく、json からの方が効率はいいだろう。
-(defn seed
-  [csv]
-  (with-open [r (io/reader csv)]
-    (binding [*in* r]
-      (loop [line (read-line)]
-        (println line)
-        (recur (read-line))))))
+(defn drop-contests []
+  (sql/query ds ["drop table if exists contests"]))
 
-;;(seed "data/year-2022.csv")
+(defn create-contests []
+  (let [sql "create table contests (
+             id integer primary key autoincrement,
+             id_fight   int not null,
+             id_person_blue   int not null,
+             id_person_white  int not null,
+             id_winner        int not null)"]
+    (drop-contests)
+    (sql/query ds [sql])))
+
+;;;;;;;;;;;;;;;;;;
+;; competitions
+
+(defn drop-competitions []
+  (sql/query ds ["drop table if exists competitions"]))
+
+(defn create-competitions []
+  (let [sql "create table competitions (
+             id integer primary key autoincrement,
+             id_competition  int unique,
+             comp_year       int not null,
+             name            text not null,
+             has_results     int default 0)"]
+    (drop-competitions)
+    (sql/query ds [sql])))
+
+(defn insert-competition
+  [{:keys [name has_results comp_year id_competition]}]
+  (try
+    (let [ret (sql/insert!
+               ds
+               :competitions
+               {:name name
+                :has_results has_results
+                :comp_year comp_year
+                :id_competition id_competition})]
+      (println "ret=" ret)
+      ret)
+    (catch Exception e (println (.getMessage e)))))
