@@ -5,14 +5,19 @@
    [fights.persons :as persons]
    #_[fights.competitor :as competitor]))
 
-(db/create-competitions)
-(db/create-contests)
-(db/create-persons)
+
+(db/create-contests nil)
 
 ;; id_competition and name
 ;; name reset-competitions?
+(db/create-competitions nil)
 (competitions/insert-competitions)
 
 ;; persons
 ;;(persons/insert-persons-id 2281)
-(persons/insert-persons 2021)
+(db/create-persons nil)
+
+;;(db/begin-transaction)
+(doseq [year [2022 2021 2020]]
+  (persons/insert-persons year))
+;;(db/end-transaction)

@@ -16,6 +16,14 @@
           {:builder-fn rs/as-unqualified-lower-maps
            :return-keys [:id]}))
 
+(defn begin-transaction
+  []
+  (sql/query ds ["begin transaction"]))
+
+(defn end-transaction
+  []
+  (sql/query ds ["commit transaction"]))
+
 ;;;;;;;;;;;;
 ;; persons
 ;;;;;;;;;;;;
@@ -23,7 +31,7 @@
 (defn drop-persons []
   (jdbc/execute! ds ["drop table if exists persons"]))
 
-(defn create-persons []
+(defn create-persons [opts]
   (let [sql "create table persons (
              id integer  primary key autoincrement,
              id_person   int not null unique,
@@ -33,19 +41,21 @@
     (drop-persons)
     (sql/query ds [sql])))
 
+
+
 (defn insert-person
- [{:keys [id_person family_name given_name country]}]
- (try
-  (sql/insert! ds :persons {:id_person   id_person
-                            :family_name family_name
-                            :given_name  given_name
-                            :country     country})
-  (catch Exception e (println (.getMessage e)
-                              "\n"
-                              "id_person"   id_person
-                              "family_name" family_name
-                              "given_name"  given_name
-                              "country"     country))))
+  [{:keys [id_person family_name given_name country]}]
+  (try
+    (sql/insert! ds :persons {:id_person   id_person
+                              :family_name family_name
+                              :given_name  given_name
+                              :country     country})
+    (catch Exception e (println (.getMessage e)
+                                "\n"
+                                "id_person"   id_person
+                                "family_name" family_name
+                                "given_name"  given_name
+                                "country"     country))))
 
 ;;;;;;;;;;;;;
 ;; contests
@@ -54,7 +64,7 @@
 (defn drop-contests []
   (sql/query ds ["drop table if exists contests"]))
 
-(defn create-contests []
+(defn create-contests [opts]
   (let [sql "create table contests (
              id integer primary key autoincrement,
              id_fight   int not null,
@@ -70,7 +80,7 @@
 (defn drop-competitions []
   (sql/query ds ["drop table if exists competitions"]))
 
-(defn create-competitions []
+(defn create-competitions [opts]
   (let [sql "create table competitions (
              id integer primary key autoincrement,
              id_competition  int unique,
@@ -94,9 +104,9 @@
     (catch Exception e (println (.getMessage e)))))
 
 (defn competition-id-year
- [year]
- (sql/query
-  ds
-  ["select id_competition from competitions where comp_year=?" year]))
+  [year]
+  (sql/query
+   ds
+   ["select id_competition from competitions where comp_year=?" year]))
 
 ;;(competition-id-year 2022)
