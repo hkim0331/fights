@@ -16,6 +16,7 @@
 ;; persons
 ;;(persons/insert-persons-id 2281)
 (db/create-persons nil)
+;;(db/begin-transaction)
 (doseq [year [2022 2021 2020]]
   (persons/insert-persons year))
-
+;;(db/end-transaction)

@@ -17,6 +17,5 @@
   []
   (db/create-competitions nil)
   (doseq [c (get-competitions)]
-    ;;(println c)
     (db/insert-competition c)))
 

@@ -33,19 +33,27 @@
     (drop-persons)
     (sql/query ds [sql])))
 
+(defn begin-transaction
+  []
+  (sql/query ds ["begin transaction"]))
+
+(defn end-transaction
+  []
+  (sql/query ds ["end transaction"]))
+
 (defn insert-person
- [{:keys [id_person family_name given_name country]}]
- (try
-  (sql/insert! ds :persons {:id_person   id_person
-                            :family_name family_name
-                            :given_name  given_name
-                            :country     country})
-  (catch Exception e (println (.getMessage e)
-                              "\n"
-                              "id_person"   id_person
-                              "family_name" family_name
-                              "given_name"  given_name
-                              "country"     country))))
+  [{:keys [id_person family_name given_name country]}]
+  (try
+    (sql/insert! ds :persons {:id_person   id_person
+                              :family_name family_name
+                              :given_name  given_name
+                              :country     country})
+    (catch Exception e (println (.getMessage e)
+                                "\n"
+                                "id_person"   id_person
+                                "family_name" family_name
+                                "given_name"  given_name
+                                "country"     country))))
 
 ;;;;;;;;;;;;;
 ;; contests
@@ -94,9 +102,9 @@
     (catch Exception e (println (.getMessage e)))))
 
 (defn competition-id-year
- [year]
- (sql/query
-  ds
-  ["select id_competition from competitions where comp_year=?" year]))
+  [year]
+  (sql/query
+   ds
+   ["select id_competition from competitions where comp_year=?" year]))
 
 ;;(competition-id-year 2022)

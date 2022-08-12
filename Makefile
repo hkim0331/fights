@@ -7,3 +7,7 @@ prep:
 .PHONY: test
 test:
 	clojure -A:test
+
+clean:
+	${RM} db/fights.sqlite
+	
