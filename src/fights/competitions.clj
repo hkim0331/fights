@@ -15,7 +15,7 @@
    ijf の competions リストから
    id_competion, comp_year, name, has_results を読み込む。"
   []
-  (db/create-competitions)
+  (db/create-competitions nil)
   (doseq [c (get-competitions)]
     ;;(println c)
     (db/insert-competition c)))

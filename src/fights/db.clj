@@ -23,7 +23,7 @@
 (defn drop-persons []
   (jdbc/execute! ds ["drop table if exists persons"]))
 
-(defn create-persons []
+(defn create-persons [opts]
   (let [sql "create table persons (
              id integer  primary key autoincrement,
              id_person   int not null unique,
@@ -54,7 +54,7 @@
 (defn drop-contests []
   (sql/query ds ["drop table if exists contests"]))
 
-(defn create-contests []
+(defn create-contests [opts]
   (let [sql "create table contests (
              id integer primary key autoincrement,
              id_fight   int not null,
@@ -70,7 +70,7 @@
 (defn drop-competitions []
   (sql/query ds ["drop table if exists competitions"]))
 
-(defn create-competitions []
+(defn create-competitions [opts]
   (let [sql "create table competitions (
              id integer primary key autoincrement,
              id_competition  int unique,
