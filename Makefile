@@ -7,7 +7,7 @@ prep:
 test:
 	clojure -A:test
 
-names:
+persons:
 	clojure -X fights.core/main :year '[2022 2021 2020 2019]'
 
 clean:
