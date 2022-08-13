@@ -29,49 +29,38 @@
 
 ;;(get-contests 2289)
 
-;; (defn insert-person-one
-;;   [{:keys [id_person_blue given_name_blue family_name_blue country_short_blue
-;;            id_person_white given_name_white family_name_white country_short_white]}]
-;;   (println [id_person_blue given_name_blue family_name_blue country_short_blue
-;;             id_person_white given_name_white family_name_white country_short_white])
-;;   (db/insert-person  {:id_person   id_person_blue
-;;                       :family_name family_name_blue
-;;                       :given_name  given_name_blue
-;;                       :country     country_short_blue})
-;;   (db/insert-person  {:id_person   id_person_white
-;;                       :family_name family_name_white
-;;                       :given_name  given_name_white
-;;                       :country     country_short_white}))
+(def ^:private persons (atom #{}))
 
-
-(def persons (atom #{}))
-
-(defn insert-person-one
+(defn- insert-persons-multi!
+  "persons のデータをテーブルに追加。
+   すでにそのデータは追加済みにこともある。"
+ []
+ (sql/insert-multi! ds :persons))
+ 
+(defn- insert-person-one
   [{:keys [id_person_blue given_name_blue family_name_blue country_short_blue
            id_person_white given_name_white family_name_white country_short_white]}]
   (swap! persons conj [id_person_blue given_name_blue family_name_blue country_short_blue])
   (swap! persons conj [id_person_white given_name_white family_name_white country_short_white]))
 
-(defn insert-persons-id
+;; FIXME: function name
+(defn insert-from-competition
   "data.ijf.org から id_competion を引いて
    id_person family_name given_name をとってくる。
    キャッシュを使っても高速化しない。遅いのは insert"
   [id_competition]
-  ;;(reset! persons #{})
+  (reset! persons #{})
   ;;(insert-person-one (first (get-contests id_competition))))
   (doseq [competition (get-contests id_competition)]
-    (insert-person-one competition)))
+    (insert-person-one competition))
+  (sql/insert-multi! ds :persons
+    [:id_competition :family_name :given_name :country]
+    (into [] @persons)))
 
-;;(insert-persons-id 2389)
+;;(insert-from-competition 2389)
 
-(defn insert-persons-multi!
- []
- (sq/insert-multi! ds :))
- 
 (defn insert-persons
+  "yyyy 年の記録で persons テーブルを更新する"
   [year]
-  (reset! persons #{}) ;; not (reset! persons! (atom #{}))
   (doseq [{:keys [id_competition]} (db/competition-id-year year)]
-    (insert-persons-id id_competition))
-  (insert-psersons-multi!))
-;;(insert-persons 2020)
+    (insert-from-competition id_competition)))
