@@ -17,3 +17,14 @@
 ;; persons
 ;;(persons/insert-persons-id 2281)
 (db/create-persons nil)
+;;(persons/insert-persons 2022)
+;;"Elapsed time: 65392.6335 msecs"
+;; (time (persons/insert-persons 2022))
+;; "Elapsed time: 60548.435875 msecs"
+(time (persons/insert-persons 2022))
+;; file sort, uniq
+;;"Elapsed time: 1068.413292 msecs"
+;; atom set
+;;"Elapsed time: 671.008708 msecs"
+(doseq [year [2021 2020 2019]]
+  (persons/insert-persons year))
