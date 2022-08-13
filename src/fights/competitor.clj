@@ -25,6 +25,8 @@
   [id]
   (get-ijf "competitor.fights_statistics" id))
 
+(spit "data/abe-2.json" (fights-statistics 13208))
+
 ;;13208
 (defn abe [{:keys [id]}]
   (println (fights-statistics id)))
@@ -36,11 +38,13 @@
   (-> (get-ijf "competitor.contests" id)
       :contests))
 
+(spit "data/contests.json" (contests 13208))
+
 (defn id-fight
   [id]
   (->> (contests id)
        (map :id_fight)))
 
 (defn contests-statistics
- [id]
- (get-ijf "competitor.contests_statistics" id))
+  [id]
+  (get-ijf "competitor.contests_statistics" id))
