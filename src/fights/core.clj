@@ -2,9 +2,7 @@
   (:require
    [fights.db :as db]
    [fights.competitions :as competitions]
-   [fights.persons :as persons]
-   #_[fights.competitor :as competitor]))
-
+   [fights.persons :as persons]))
 
 (db/create-contests nil)
 
@@ -15,8 +13,10 @@
 ;;"Elapsed time: 2114.854625 msecs"
 
 ;; persons
-;;(persons/insert-persons-id 2281)
+
 (db/create-persons nil)
+(persons/insert-from-competition 2281)
+
 ;;(persons/insert-persons 2022)
 ;;"Elapsed time: 65392.6335 msecs"
 ;; (time (persons/insert-persons 2022))
@@ -26,5 +26,6 @@
 ;;"Elapsed time: 1068.413292 msecs"
 ;; atom set
 ;;"Elapsed time: 671.008708 msecs"
-(doseq [year [2021 2020 2019]]
+(doseq [year [2022 2021 2020 2019]]
   (persons/insert-persons year))
+

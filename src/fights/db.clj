@@ -56,10 +56,11 @@
 ;;                                 "country"     country))))
 
 (defn insert-person
-  [{:keys [id_person family_name given_name country]}]
+  [id_person family_name given_name country]
   (when-not (sql/query
              ds
              ["select * from persons where id_person=?" id_person])
+    (println "insert" id_person)
     (sql/insert! ds :persons {:id_person   id_person
                               :family_name family_name
                               :given_name  given_name

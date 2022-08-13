@@ -3,7 +3,8 @@
    ;;[cheshire.core :refer [parse-string]]
    [clojure.java.io :as io]
    [fights.db :as db]
-   [hato.client :as hc]))
+   [hato.client :as hc]
+   [next.jdbc.sql :as sql]))
 
 (def ^:private base "https://data.ijf.org/api/get_json")
 
@@ -27,16 +28,11 @@
         (spit json ret)
         ret))))
 
-;;(get-contests 2289)
+(comment 
+ (get-contests 2289))
 
 (def ^:private persons (atom #{}))
 
-(defn- insert-persons-multi!
-  "persons のデータをテーブルに追加。
-   すでにそのデータは追加済みにこともある。"
- []
- (sql/insert-multi! ds :persons))
- 
 (defn- insert-person-one
   [{:keys [id_person_blue given_name_blue family_name_blue country_short_blue
            id_person_white given_name_white family_name_white country_short_white]}]
@@ -53,14 +49,18 @@
   ;;(insert-person-one (first (get-contests id_competition))))
   (doseq [competition (get-contests id_competition)]
     (insert-person-one competition))
-  (sql/insert-multi! ds :persons
-    [:id_competition :family_name :given_name :country]
-    (into [] @persons)))
+  (doseq [[id family given country] @persons]
+    (db/insert-person id family given country)))
 
-;;(insert-from-competition 2389)
+(comment
+  (insert-from-competition 2381))
+
 
 (defn insert-persons
   "yyyy 年の記録で persons テーブルを更新する"
   [year]
   (doseq [{:keys [id_competition]} (db/competition-id-year year)]
     (insert-from-competition id_competition)))
+
+(comment
+  (insert-persons 2022))
