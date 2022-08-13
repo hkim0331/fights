@@ -25,6 +25,10 @@
   [id]
   (get-ijf "competitor.fights_statistics" id))
 
+;;13208
+(defn abe [{:keys [id]}]
+  (fights-statistics id))
+
 (defn contests
   [id]
   (-> (get-ijf "competitor.contests" id)
