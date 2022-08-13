@@ -25,6 +25,12 @@
   [id]
   (get-ijf "competitor.fights_statistics" id))
 
+;;13208
+(defn abe [{:keys [id]}]
+  (println (fights-statistics id)))
+
+(abe {:id 13208})
+
 (defn contests
   [id]
   (-> (get-ijf "competitor.contests" id)
