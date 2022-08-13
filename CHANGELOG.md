@@ -10,7 +10,7 @@
 [SQLITE_CONSTRAINT_UNIQUE] A UNIQUE constraint failed (UNIQUE constraint failed: persons.id_person)
 ```
 
-## 0.4.0-SNAPSHOT
+## 0.4.0 - 2022-08-14
 - make realclean
 - make persons
 
