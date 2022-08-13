@@ -7,9 +7,9 @@
 
 (defn main
  [opts]
- (db/create-contests nil)
- (db/create-competitions nil)
- (db/create-persons nil)
+;; (db/create-contests nil)
+;; (db/create-competitions nil)
+;; (db/create-persons nil)
  (competitions/insert-competitions)
  (doseq [year (:year opts)]
    (persons/insert-persons year)))

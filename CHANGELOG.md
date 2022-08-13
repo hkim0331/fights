@@ -3,8 +3,16 @@
 ## Unreleased
 - map で db を置き換える。
 - ファイルに書き出し、sort, uniq でフィルタしては？
+- ログがうるさい。
+
+```
+[23931 Alexandra MILOVZOROVA RUS]
+[SQLITE_CONSTRAINT_UNIQUE] A UNIQUE constraint failed (UNIQUE constraint failed: persons.id_person)
+```
 
 ## 0.4.0-SNAPSHOT
+- make realclean
+- make persons
 
 ## 0.3.0 - 2022-08-13
 - 例外を出さない。upsert
