@@ -14,7 +14,9 @@
 
 (defn get-contests
   "downloads contests from ijf,
-   cache the downloads as `data/<id>.json`"
+   cache the downloads as `data/<id>.json`
+   argument id is competition id
+   returns competition json, [{},{},...]"
   [id]
   (let [json (cache id)]
     (if (.exists (-> json io/file))
@@ -28,8 +30,8 @@
         (spit json ret)
         ret))))
 
-(comment 
- (get-contests 2289))
+(comment
+ (get-contests 2281))
 
 (def ^:private persons (atom #{}))
 
@@ -49,11 +51,11 @@
   ;;(insert-person-one (first (get-contests id_competition))))
   (doseq [competition (get-contests id_competition)]
     (insert-person-one competition))
-  (doseq [[id family given country] @persons]
-    (db/insert-person id family given country)))
+  (doseq [p @persons]
+    (println p)
+    (db/insert-person p)))
 
-(comment
-  (insert-from-competition 2381))
+(insert-from-competition 2381)
 
 
 (defn insert-persons
@@ -62,5 +64,6 @@
   (doseq [{:keys [id_competition]} (db/competition-id-year year)]
     (insert-from-competition id_competition)))
 
-(comment
-  (insert-persons 2022))
+(db/competition-id-year 2021)
+
+(insert-persons 2022)

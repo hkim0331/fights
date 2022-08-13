@@ -56,15 +56,13 @@
 ;;                                 "country"     country))))
 
 (defn insert-person
-  [id_person family_name given_name country]
-  (when-not (sql/query
-             ds
-             ["select * from persons where id_person=?" id_person])
-    (println "insert" id_person)
+  [[id_person family_name given_name country]]
+  (try
     (sql/insert! ds :persons {:id_person   id_person
                               :family_name family_name
                               :given_name  given_name
-                              :country     country})))
+                              :country     country})
+    (catch Exception e (println (.getMessage e)))))
 
 ;;;;;;;;;;;;;
 ;; contests
