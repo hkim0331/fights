@@ -27,7 +27,9 @@
 
 ;;13208
 (defn abe [{:keys [id]}]
-  (fights-statistics id))
+  (println (fights-statistics id)))
+
+(abe {:id 13208})
 
 (defn contests
   [id]
