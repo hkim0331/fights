@@ -2,7 +2,12 @@
 
 ## Unreleased
 - map で db を置き換える。
+- ファイルに書き出し、sort, uniq でフィルタしては？
+
+
+## 0.3.0-SNAPSHOT
 - 例外を出さない。upsert
+- 遅いのはネットワークではなく、insert. 複数の insert をまとめて実行するなどの改良が望まれる。
 
 ## 0.2.0 - 2022-08-13
 - src/fights/db.clj create tables. `persons`, `contests` and `competitions`.

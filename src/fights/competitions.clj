@@ -10,6 +10,7 @@
     (-> (hc/get url {:as :json})
         :body)))
 
+;; FIXME: 追加もあるだろう。
 (defn insert-competitions
   "cometitions テーブルを初期化し、
    ijf の competions リストから
