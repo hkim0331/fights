@@ -14,15 +14,15 @@
 (def ds (jdbc/with-options
           (jdbc/get-datasource db)
           {:builder-fn rs/as-unqualified-lower-maps
-           :return-keys [:id]}))
+           :return-keys true}))
 
 (defn begin-transaction
-  []
-  (sql/query ds ["begin transaction"]))
+  [t]
+  (sql/query ds ["begin transaction ?" t]))
 
 (defn end-transaction
-  []
-  (sql/query ds ["commit transaction"]))
+  [t]
+  (sql/query ds ["commit transaction ?" t]))
 
 ;;;;;;;;;;;;
 ;; persons
@@ -41,21 +41,28 @@
     (drop-persons)
     (sql/query ds [sql])))
 
-
+;; (defn insert-person
+;;   [{:keys [id_person family_name given_name country]}]
+;;   (try
+;;     (sql/insert! ds :persons {:id_person   id_person
+;;                               :family_name family_name
+;;                               :given_name  given_name
+;;                               :country     country})
+;;     (catch Exception e (println (.getMessage e)
+;;                                 "\n"
+;;                                 "id_person"   id_person
+;;                                 "family_name" family_name
+;;                                 "given_name"  given_name
+;;                                 "country"     country))))
 
 (defn insert-person
-  [{:keys [id_person family_name given_name country]}]
+  [[id_person family_name given_name country]]
   (try
     (sql/insert! ds :persons {:id_person   id_person
                               :family_name family_name
                               :given_name  given_name
                               :country     country})
-    (catch Exception e (println (.getMessage e)
-                                "\n"
-                                "id_person"   id_person
-                                "family_name" family_name
-                                "given_name"  given_name
-                                "country"     country))))
+    (catch Exception e (println (.getMessage e)))))
 
 ;;;;;;;;;;;;;
 ;; contests
