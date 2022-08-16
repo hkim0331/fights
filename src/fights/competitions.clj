@@ -12,8 +12,7 @@
 
 ;; FIXME: 追加もあるだろう。
 (defn insert-competitions
-  "cometitions テーブルを初期化し、
-   ijf の competions リストから
+  "cometitions テーブルを初期化し、ijf の competions リストから
    id_competion, comp_year, name, has_results を読み込む。"
   []
   (db/create-competitions nil)

@@ -15,7 +15,7 @@
 (defn get-contests
   "downloads contests from ijf,
    cache the downloads as `data/<id>.json`
-   argument id is competition id
+   argument id is competition id,
    returns competition json, [{},{},...]"
   [id]
   (let [json (cache id)]
@@ -38,8 +38,8 @@
 (defn- insert-person-one
   [{:keys [id_person_blue given_name_blue family_name_blue country_short_blue
            id_person_white given_name_white family_name_white country_short_white]}]
-  (swap! persons conj [id_person_blue given_name_blue family_name_blue country_short_blue])
-  (swap! persons conj [id_person_white given_name_white family_name_white country_short_white]))
+  (swap! persons conj [id_person_blue family_name_blue given_name_blue country_short_blue])
+  (swap! persons conj [id_person_white family_name_white given_name_white country_short_white]))
 
 ;; FIXME: function name
 (defn insert-from-competition

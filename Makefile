@@ -17,3 +17,6 @@ realclean: clean
 .PHONY: test
 test:
 	clojure -A:test
+
+abe:
+	clojure -X fights.competitor/abe :id 13208
