@@ -1,14 +1,18 @@
 # Change Log
 
 ## Unreleased
+- web の GUI で包めないか。
 - map で db を置き換える。
 - ファイルに書き出し、sort, uniq でフィルタしては？
 - ログがうるさい。
-
 ```
 [23931 Alexandra MILOVZOROVA RUS]
 [SQLITE_CONSTRAINT_UNIQUE] A UNIQUE constraint failed (UNIQUE constraint failed: persons.id_person)
 ```
+- competitions の一覧表示
+- comtetition 追加
+- person 戦績
+
 
 ## 0.4.0-SNAPSHOT
 - make realclean
