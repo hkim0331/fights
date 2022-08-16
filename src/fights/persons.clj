@@ -15,7 +15,7 @@
 (defn get-contests
   "downloads contests from ijf,
    cache the downloads as `data/<id>.json`
-   argument id is competition id
+   argument id is competition id,
    returns competition json, [{},{},...]"
   [id]
   (let [json (cache id)]
