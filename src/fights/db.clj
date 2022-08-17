@@ -1,6 +1,7 @@
 (ns fights.db
   (:require
    [clojure.java.io :as io]
+   [clojure.string :as str]
    [next.jdbc :as jdbc]
    [next.jdbc.sql :as sql]
    [next.jdbc.result-set :as rs]))
@@ -31,7 +32,8 @@
 (defn drop-persons []
   (jdbc/execute! ds ["drop table if exists persons"]))
 
-(defn create-persons [opts]
+(defn create-persons
+  [opts]
   (let [sql "create table persons (
              id integer  primary key autoincrement,
              id_person   int not null unique,
@@ -41,20 +43,6 @@
     (drop-persons)
     (sql/query ds [sql])))
 
-;; (defn insert-person
-;;   [{:keys [id_person family_name given_name country]}]
-;;   (try
-;;     (sql/insert! ds :persons {:id_person   id_person
-;;                               :family_name family_name
-;;                               :given_name  given_name
-;;                               :country     country})
-;;     (catch Exception e (println (.getMessage e)
-;;                                 "\n"
-;;                                 "id_person"   id_person
-;;                                 "family_name" family_name
-;;                                 "given_name"  given_name
-;;                                 "country"     country))))
-
 (defn insert-person
   [[id_person family_name given_name country]]
   (try
@@ -62,7 +50,12 @@
                               :family_name family_name
                               :given_name  given_name
                               :country     country})
-    (catch Exception e (println (.getMessage e)))))
+    (catch Exception e
+      (let [msg (.getMessage e)]
+       (if (str/starts-with? msg "[SQLITE_CONSTRAINT_UNIQUE")
+        (print ".")
+        (println msg id_person family_name given_name country))))))
+
 
 ;;;;;;;;;;;;;
 ;; contests

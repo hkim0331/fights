@@ -1,7 +1,7 @@
 # Change Log
 
 ## Unreleased
-- web の GUI で包めないか。
+- web の GUI で包めないか。CORS.
 - map で db を置き換える。
 - ファイルに書き出し、sort, uniq でフィルタしては？
 - ログがうるさい。
@@ -12,7 +12,9 @@
 - competitions の一覧表示
 - comtetition 追加
 - person 戦績
+- weight を入れるか？
 
+## 0.5.0-SNAPSHOT
 
 ## 0.4.0 - 2022-08-14
 - make realclean

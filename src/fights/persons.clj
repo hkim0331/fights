@@ -4,7 +4,7 @@
    [clojure.java.io :as io]
    [fights.db :as db]
    [hato.client :as hc]
-   [next.jdbc.sql :as sql]))
+   #_[next.jdbc.sql :as sql]))
 
 (def ^:private base "https://data.ijf.org/api/get_json")
 
@@ -13,10 +13,10 @@
   (str "data/" id ".json"))
 
 (defn get-contests
-  "downloads contests from ijf,
-   cache the downloads as `data/<id>.json`
-   argument id is competition id,
-   returns competition json, [{},{},...]"
+  "Downloads contests data from ijf,
+   caches the downloads as `data/<id>.json`
+   The argument id is IJF's id_competition.
+   Returns json array, [{},{},...]"
   [id]
   (let [json (cache id)]
     (if (.exists (-> json io/file))
@@ -33,9 +33,11 @@
 (comment
  (get-contests 2281))
 
+;; remove duplicates using set
 (def ^:private persons (atom #{}))
 
-(defn- insert-person-one
+(defn- add-persons
+  "add person blue and white into set `persons`"
   [{:keys [id_person_blue given_name_blue family_name_blue country_short_blue
            id_person_white given_name_white family_name_white country_short_white]}]
   (swap! persons conj [id_person_blue family_name_blue given_name_blue country_short_blue])
@@ -45,25 +47,26 @@
 (defn insert-from-competition
   "data.ijf.org から id_competion を引いて
    id_person family_name given_name をとってくる。
+   セットを利用して重複を解消する。
    キャッシュを使っても高速化しない。遅いのは insert"
   [id_competition]
   (reset! persons #{})
-  ;;(insert-person-one (first (get-contests id_competition))))
-  (doseq [competition (get-contests id_competition)]
-    (insert-person-one competition))
+  (doseq [contest (get-contests id_competition)]
+    (add-persons contest))
   (doseq [p @persons]
-    (println p)
+    ;;(println p)
     (db/insert-person p)))
 
-(insert-from-competition 2381)
+(comment
+ (insert-from-competition 2381))
 
 
 (defn insert-persons
-  "yyyy 年の記録で persons テーブルを更新する"
+  "Update persons table with year's competitions."
   [year]
   (doseq [{:keys [id_competition]} (db/competition-id-year year)]
     (insert-from-competition id_competition)))
 
-(db/competition-id-year 2021)
-
-(insert-persons 2022)
+(comment
+  (db/competition-id-year 2021)
+  (insert-persons 2022))
