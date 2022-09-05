@@ -17,6 +17,7 @@
   (get-ijf "competitor.info" id))
 
 (defn wrl-current
+  "current world lanking"
   [id]
   (get-ijf "competitor.wrl_current" id))
 
@@ -30,13 +31,13 @@
   (-> (get-ijf "competitor.contests" id)
       :contests))
 
-(comment
-  ;; ABE 13208
-  (spit "data/abe.json" (fights-statistics 13208))
-  (spit "data/contests.json" (contests 13208))
-  (defn abe [{:keys [id]}]
-    (println (fights-statistics id)))
-  (abe {:id 13208}))
+(comment)
+;;; ABE 13208
+(spit "data/abe.json" (fights-statistics 13208))
+(spit "data/contests.json" (contests 13208))
+(defn abe [{:keys [id]}]
+  (println (fights-statistics id)))
+;; (abe {:id 13208})
 
 (def c (-> (slurp "data/contests.json") read-string))
 

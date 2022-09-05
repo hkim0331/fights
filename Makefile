@@ -6,7 +6,7 @@ prep:
 	clojure -X fights.db/create-competitions
 
 persons: prep
-	clojure -X fights.core/main :year '[2022 2021 2020 2019]'
+	clojure -X fights.core/main :year '[2019 2020 2021 2022]'
 
 clean:
 	${RM} db/fights.sqlite
