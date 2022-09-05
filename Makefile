@@ -1,4 +1,4 @@
-all: realclean persons
+all: clean persons
 
 prep:
 	clojure -X fights.db/create-persons

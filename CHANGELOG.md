@@ -1,7 +1,7 @@
 # Change Log
 
 ## Unreleased
-- web の GUI で包めないか。
+- web の GUI で包めないか。CORS.
 - map で db を置き換える。
 - ファイルに書き出し、sort, uniq でフィルタしては？
 - ログがうるさい。
@@ -14,6 +14,7 @@
 - person 戦績
 - もうちょっと開発中コメントを。
 
+## 0.5.0-SNAPSHOT
 
 ## 0.4.0 - 2022-08-14
 - make realclean
